@@ -16,8 +16,7 @@ public class HomeController : ControllerBase
         _repository = repository;
     }
 
-    [HttpPost]
-    [Route("login")]
+    [HttpPost, Route("Login")]
     [AllowAnonymous]
     public IActionResult Login([FromBody] User credentials)
     {
@@ -31,13 +30,11 @@ public class HomeController : ControllerBase
         });
     }
 
-    [HttpGet]
-    [Route("Authenticated")]
+    [HttpGet, Route("Authenticate")]
     [Authorize]
-    public IActionResult Authenticated() => Ok($"Authenticated - { User.Identity.Name }");
+    public IActionResult Authenticated() => Ok($"Authenticated - { User?.Identity?.Name }");
 
-    [HttpGet]
-    [Route("Admin")]
+    [HttpGet, Route("Admins")]
     [Authorize(Roles = "Admin")]
     public IActionResult Admin() => Ok("You are an Admin");
 }
