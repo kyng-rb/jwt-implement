@@ -42,4 +42,13 @@ public static class SwaggerExtensions
             c.BearerSecurity();
         });
     }
+
+    public static void ConfigureSwagger(this WebApplication app)
+    {
+        if (!app.Environment.IsDevelopment())
+            return;
+
+        app.UseSwagger();
+        app.UseSwaggerUI();
+    }
 }
