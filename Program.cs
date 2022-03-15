@@ -2,6 +2,7 @@ using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using jwt_implement.Repositories;
+using jwt_implement.Swagger;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,24 +12,21 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 
 
-var key = Encoding.ASCII.GetBytes("MyKey");
+var key = Encoding.ASCII.GetBytes("MyVerydifficultKey");
 
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
-{
-    c.ResolveConflictingActions(x => x.First());
-});
+builder.Services.ConfigureSwagger();
+
 builder.Services.AddAuthentication(x =>
 {
     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
     x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
 }).AddJwtBearer(x =>
 {
-    x.RequireHttpsMetadata = false;
     x.SaveToken = true;
     x.TokenValidationParameters = new TokenValidationParameters()
     {
-        ValidateIssuerSigningKey = true,
+        //ValidateIssuerSigningKey = true,
         IssuerSigningKey = new SymmetricSecurityKey(key)
     };
 });
