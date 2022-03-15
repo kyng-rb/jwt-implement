@@ -14,7 +14,8 @@ namespace jwt_implement.Auth
             var key = Encoding.ASCII.GetBytes("MyVerydifficultKey");
             var tokenDescriptor = new SecurityTokenDescriptor()
             {
-                Subject = new ClaimsIdentity(new Claim[]{
+                Subject = new ClaimsIdentity(new Claim[]
+                {
                     new Claim(ClaimTypes.Name, user.Email),
                     new Claim(ClaimTypes.Role, user.Role)
                 }),
