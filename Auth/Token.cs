@@ -9,7 +9,7 @@ namespace jwt_implement.Auth
     public class Token
     {
         private readonly int EXPIRE_HOURS = 1;
-        public string? CreateToken(User user)
+        public string CreateToken(User user)
         {
             var key = Encoding.ASCII.GetBytes("MyVerydifficultKey");
             var tokenDescriptor = new SecurityTokenDescriptor()
