@@ -1,11 +1,12 @@
-using jwt_implement.Startup;
+using jwt_implement.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.ConfigureSwagger();
-builder.Services.ConfigureJWT();
+builder.Services.ConfigureJWT(builder.Configuration);
+builder.Services.AddConfigurations(builder.Configuration);
 builder.Services.ConfigureRepositories();
 
 var app = builder.Build();

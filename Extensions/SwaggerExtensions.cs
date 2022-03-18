@@ -2,7 +2,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.OpenApi.Models;
 
-namespace jwt_implement.Startup;
+namespace jwt_implement.Extensions;
 
 public static class SwaggerExtensions
 {

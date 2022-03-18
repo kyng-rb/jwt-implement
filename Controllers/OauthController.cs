@@ -11,18 +11,21 @@ namespace jwt_implement.Controllers;
 public class OauthController : ControllerBase
 {
     private readonly IRepository _repository;
-    public OauthController(IRepository repository)
+    private readonly ICreateToken _createToken;
+
+    public OauthController(IRepository repository, ICreateToken createToken)
     {
         _repository = repository;
+        _createToken = createToken;
     }
 
     [HttpPost, Route("Login")]
     [AllowAnonymous]
     public IActionResult Login([FromBody] LoginRequest credentials)
     {
-        var tokenService = new Token();
         var user = _repository.GetBy(credentials.Email);
-        var token = tokenService.CreateToken(user);
+        var token = _createToken.Create(user);
+
         return Ok(new LoginResponse()
         {
             User = user,
