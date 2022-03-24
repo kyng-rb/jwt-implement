@@ -1,5 +1,6 @@
 using jwt_implement.Auth;
 using jwt_implement.Models;
+using jwt_implement.Models.Api;
 using jwt_implement.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -20,6 +21,7 @@ public class OauthController : ControllerBase
     }
 
     [HttpPost, Route("Login")]
+    [ProducesResponseType(typeof(ApiResponse<LoginResponse>), StatusCodes.Status200OK)]
     [AllowAnonymous]
     public IActionResult Login([FromBody] LoginRequest credentials)
     {

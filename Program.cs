@@ -1,8 +1,15 @@
 using jwt_implement.Extensions;
+using jwt_implement.Models.Api;
+using Microsoft.AspNetCore.Mvc;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(x =>
+{
+    x.Filters.Add(new ProducesResponseTypeAttribute(typeof(ApiResponse), StatusCodes.Status500InternalServerError));
+    x.Filters.Add(new ProducesResponseTypeAttribute(typeof(ApiResponse), StatusCodes.Status400BadRequest));
+});
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.ConfigureSwagger();
 builder.Services.ConfigureJWT(builder.Configuration);
