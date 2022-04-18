@@ -1,11 +1,18 @@
 namespace jwt_implement.Models.Api;
 
-public class ApiResponse
+public class ApiResponse<Result>
 {
-    public IEnumerable<string> Messages { get; set; } = new List<string>();
-}
+    public ApiResponse(Result data)
+    {
+        Data = data;
+    }
 
-public class ApiResponse<Result> : ApiResponse
-{
+    public ApiResponse(IEnumerable<string> messages)
+    {
+        Messages = messages;
+    }
+
+    public IEnumerable<string> Messages { get; set; } = new List<string>();
+
     public Result? Data { get; set; }
 }

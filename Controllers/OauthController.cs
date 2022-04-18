@@ -1,7 +1,5 @@
-using jwt_implement.Auth;
-using jwt_implement.Models;
-using jwt_implement.Models.Api;
-using jwt_implement.Repositories;
+using jwt_implement.Extensions;
+using jwt_implement.Services.Oauth;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,33 +9,20 @@ namespace jwt_implement.Controllers;
 [Route("api/[controller]")]
 public class OauthController : ControllerBase
 {
-    private readonly IRepository _repository;
-    private readonly ICreateToken _createToken;
+    private readonly ILogin _loginService;
 
-    public OauthController(IRepository repository, ICreateToken createToken)
+    public OauthController(ILogin loginService)
     {
-        _repository = repository;
-        _createToken = createToken;
+        _loginService = loginService;
     }
 
     [HttpPost, Route("Login")]
-    [ProducesResponseType(typeof(ApiResponse<LoginResponse>), StatusCodes.Status200OK)]
     [AllowAnonymous]
-    public IActionResult Login([FromBody] LoginRequest credentials)
-    {
-        var user = _repository.GetBy(credentials.Email);
-        var token = _createToken.Create(user);
-
-        return Ok(new LoginResponse()
-        {
-            User = user,
-            Token = token
-        });
-    }
+    public IActionResult Login([FromBody] LoginInput credentials) => _loginService.Login(credentials).ToActionResult();
 
     [HttpGet, Route("Authenticate")]
     [Authorize]
-    public IActionResult Authenticated() => Ok($"Authenticated - { User?.Identity?.Name }");
+    public IActionResult Authenticated() => Ok($"Authenticated - {User?.Identity?.Name}");
 
     [HttpGet, Route("Admins")]
     [Authorize(Roles = "Admin")]
